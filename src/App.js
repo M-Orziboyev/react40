@@ -1,45 +1,51 @@
-import { Component, React} from "react";
+import { useState } from "react";
 
+// class User extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       count: 0,
+//       age: ''
+//     }
+//   };
 
-class User extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 0,
-      age: ''
-    }
-  };
+//   onChangeHandler = e => {
+//     this.setState({
+//       age: e.target.value
+//     });
+//   }
 
-  onChangeHandler = e => {
-    this.setState({
-      age: e.target.value
-    });
+//   
+// }
+
+const User = ({firstName, lastName, link}) => {
+
+  const [counter, setCount] = useState(0)
+
+  const onIncrement = () =>{
+    setCount(prevCounter => prevCounter + 1)
+    setCount(prevCounter => prevCounter + 1)
+  }
+  const onDecrement = () =>{
+    setCount(prevCounter => prevCounter - 1)
   }
 
-  render() {
-    const {firstName, lastName} = this.props
-    console.log(this.props)
-    return (
-      <div className="w-50 mx-auto">
-        <div className="border  p-3 mt-2">
-          <h4>Salom mening ismim - {firstName}, sharifim - {lastName}, yoshim - {this.state.age}</h4>
-          <a href='{link}'>Telegram profilim</a>
-          <div>
-            <button className="btn btn-info m-3" onClick={() => this.setState({count: this.state.count + 1})}>Increment</button>
-            <button className="btn btn-danger m3 " onClick={() => this.setState({count: this.state.count - 1})}>Decrement</button>
-            <button className="btn btn-success m-3" onClick={() => this.setState({count:this.state.count = 0})}>Reset</button>
-          </div>
-          <div>
-            <p>Count = {this.state.count}</p>
-          </div>
-        <form>
-          <span>Yoshingiz</span>
-          <input type="text" className="form-control" onChange={this.onChangeHandler} />
-        </form>
+
+  return (
+    <div className="w-50 mx-auto">
+      <div className="border  p-3 mt-2">
+        <h4>Salom mening ismim - {firstName}, sharifim - {lastName}</h4>
+        <a href='{link}'>Telegram profilim</a>
+        <div>
+          <p className="text-center">Count =  {counter}</p>
         </div>
-      </div>  
-    );
-  }
+        <div className="d-flex justify-content-center">
+          <button className="btn btn-success" onClick={onIncrement}>+</button>
+          <button className="btn btn-danger" onClick={onDecrement}>-</button>
+        </div>
+      </div>
+    </div>  
+  );
 }
 
 
