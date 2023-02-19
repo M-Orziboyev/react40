@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState } from "react";
+import CounterItem from "../counter-item/CounterItem";
 
 // class User extends Component {
 //   constructor(props) {
@@ -53,63 +54,29 @@ import { useState, useEffect } from "react";
 //   }
 // }
 
-const User = ({firstName, lastName, link}) => {
+const User = () => {
 
   const [counter, setCount] = useState(0)
-  const[isLogin, setIsLogin] = useState(false)
-  const onIncrement = () =>{
-    setCount(prevCounter => prevCounter + 1)
-    setCount(prevCounter => prevCounter + 1)
-  }
-  const onDecrement = () =>{
-    setCount(prevCounter => prevCounter - 1)
-  }
-  const onReset = () =>{
-    setCount(0)
-  }
+  const[active, setActive] = useState(true)
 
-  const onToggleButton = () =>{
-    setIsLogin(prevState => !prevState)
-  }
+  const onIncrement = () =>{setCount(prevCounter => prevCounter + 1)}
+  const onToggle = () => setActive(prevCounter => !prevCounter)
+  const counterGenerate = useCallback(() => {new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`)}, [counter]) 
   
-  useEffect( () =>{ // ONLY WORoK isLogin
-    document.title = `Counter : ${counter}`
-    console.log("effect (ONLY WORoK isLogin)");
-  }, [isLogin])
-  useEffect( () =>{ // ONLY WORoK counter
-    document.title = `Counter : ${counter}`
-    console.log("effect: (ONLY WORoK counter)");
-  }, [counter])
-  useEffect( () =>{ // ONLY WORoK mounting when you will open the site
-    document.title = `Counter : ${counter}`
-    console.log("effect: (ONLY WORoK mounting when you will open the site)");
-  }, [])
-  useEffect( () =>{ 
-    document.title = `Counter : ${counter}`
-    console.log("deleted");
-
-    return () => {console.log("Deleted");}
-  })
+  const colors = {
+    fontSize: '19px',
+    color: active ? 'green' : 'yellow'
+  }
 
   return (
     <div className="w-50 mx-auto">
-      <div className="border  p-3 mt-2">
-        <h4>Salom mening ismim - {firstName}, sharifim - {lastName}</h4>
-        <a href='{link}'>Telegram profilim</a>
-        <div>
-          <p className="text-center">Count =  {counter}</p>
-        </div>
+      <div className="border  p-3 mt-2 text-center">
+          <p style={colors}> User activated {counter}</p>
         <div className="d-flex justify-content-center">
-          <button className="btn btn-success" onClick={onIncrement}>+</button>
-          <button className="btn btn-danger" onClick={onDecrement}>-</button>
-          <button className="btn btn-dark" onClick={onReset}>0</button>
+          <button className="btn btn-success" onClick={onIncrement}>Increase</button>
+          <button className="btn btn-warning" onClick={onToggle}>Toggle</button>
         </div>
-        <div className="justify-content-center">
-        </div>
-        <div className="d-flex justify-content-center">
-          {isLogin ? <p className="text-center">Login</p> : null}
-          <button className="btn btn-outline-primary" onClick={onToggleButton}>Toggle</button>
-        </div>
+        <CounterItem counterGenerate={counterGenerate}/>
       </div>
     </div>  
   );
@@ -120,7 +87,6 @@ const App = () => {
   return (
     <div>
       <User firstName='Muzaffar' lastName='Orziboyev' link='t.me://rehpargotyrC' />
-      <User firstName='Umar' lastName='Abdullayev' link='t.me://rehpargotyrC' />
     </div>
   );
 }
