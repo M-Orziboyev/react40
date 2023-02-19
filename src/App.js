@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { Component, useState, useEffect } from "react";
 
 class User extends Component {
   constructor(props) {
