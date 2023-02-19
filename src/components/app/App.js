@@ -61,12 +61,13 @@ const User = () => {
 
   const onIncrement = () =>{setCount(prevCounter => prevCounter + 1)}
   const onToggle = () => setActive(prevCounter => !prevCounter)
-  const counterGenerate = useCallback(() => {new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`)}, [counter]) 
+  const counterGenerate = useCallback(count => {return new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`)}, [counter]) 
   
   const colors = {
     fontSize: '19px',
     color: active ? 'green' : 'yellow'
   }
+  console.log(counterGenerate());
 
   return (
     <div className="w-50 mx-auto">
