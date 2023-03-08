@@ -6,7 +6,7 @@ const CounterItem = ({ counterGenerate }) => {
     useEffect(() => {
         const newItem = counterGenerate()
         setItem(newItem)
-        // console.log('render');
+        console.log('render');
     }, [counterGenerate])
 
     if(item == null){
