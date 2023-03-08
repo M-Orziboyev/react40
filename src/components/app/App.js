@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo} from "react";
 import CounterItem from "../counter-item/CounterItem";
 
 // class User extends Component {
@@ -55,30 +55,35 @@ import CounterItem from "../counter-item/CounterItem";
 // }
 
 const User = () => {
+  const bigCountNumber = number => {
+    return number
+  }
 
   const [counter, setCount] = useState(0)
-  const[active, setActive] = useState(true)
+  const [active, setActive] = useState(true)
 
-  const onIncrement = () =>{setCount(prevCounter => prevCounter + 1)}
+  const onIncrement = () => { setCount(prevCounter => prevCounter + 1) }
   const onToggle = () => setActive(prevCounter => !prevCounter)
-  const counterGenerate = useCallback(() => {new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`)}, [counter]) 
-  
+  const counterGenerate = useCallback(count => { return new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`) }, [counter])
+
   const colors = {
     fontSize: '19px',
-    color: active ? 'green' : 'yellow'
+    color: active ? 'green' : 'red'
   }
+
+  const number = useMemo(() => bigCountNumber(counter), [counter])
 
   return (
     <div className="w-50 mx-auto">
       <div className="border  p-3 mt-2 text-center">
-          <p style={colors}> User activated {counter}</p>
+        <p style={colors}> User activated {number}</p>
         <div className="d-flex justify-content-center">
           <button className="btn btn-success" onClick={onIncrement}>Increase</button>
           <button className="btn btn-warning" onClick={onToggle}>Toggle</button>
         </div>
-        <CounterItem counterGenerate={counterGenerate}/>
+        <CounterItem counterGenerate={counterGenerate} />
       </div>
-    </div>  
+    </div>
   );
 }
 
