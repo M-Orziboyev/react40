@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo} from "react";
+import { useCallback, useState, useMemo, useRef, useEffect   } from "react";
 import CounterItem from "../counter-item/CounterItem";
 
 // class User extends Component {
@@ -54,6 +54,8 @@ import CounterItem from "../counter-item/CounterItem";
 //   }
 // }
 
+
+
 const User = () => {
   const bigCountNumber = number => {
     return number
@@ -61,12 +63,37 @@ const User = () => {
 
   const [counter, setCount] = useState(0)
   const [active, setActive] = useState(true)
+  const [cardNumber, setCardNumber] = useState('');
+  const [cvcNumber, setCvcNumber] = useState('');
 
   const onIncrement = () => { setCount(prevCounter => prevCounter + 1) }
   const onToggle = () => setActive(prevCounter => !prevCounter)
   const counterGenerate = useCallback(count => { return new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`) }, [counter])
+  const cvcRef = useRef(null);
+  const dataCvc = useRef(null);
+  const handleInput = (e) => {
+    const val = e.target.value;
+    setCardNumber(val)
+    if (val.length === 16){
+      cvcRef.current.focus()
+      console.log(val.length);
+    }
+  }
 
-  const colors = {
+  const cvcInput = e => {
+    const val = e.target.value;
+    setCvcNumber(val);
+    if (val.length === 3){
+      dataCvc.current.focus();
+    }
+  }
+
+
+
+  useEffect(() => {
+    console.log(cvcRef.current);
+  });
+    const colors = {
     fontSize: '19px',
     color: active ? 'green' : 'red'
   }
@@ -81,6 +108,9 @@ const User = () => {
           <button className="btn btn-success" onClick={onIncrement}>Increase</button>
           <button className="btn btn-warning" onClick={onToggle}>Toggle</button>
         </div>
+          <input type="number" className="form-control mt-3 w-50 mx-auto" placeholder="Card Number" onChange={handleInput} value={cardNumber}/>
+          <input ref={cvcRef} type="number" className="form-control mt-2 w-50 mx-auto" placeholder="Secure Number" onChange={cvcInput} value={cvcNumber}/>
+          <input ref={dataCvc} type="number" className="form-control mt-2 w-50 mx-auto mb-3" placeholder="Year/Month" />
         <CounterItem counterGenerate={counterGenerate} />
       </div>
     </div>
