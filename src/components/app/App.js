@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo, useRef, useEffect   } from "react";
+import { useCallback, useState, useMemo, useRef, useEffect } from "react";
 import CounterItem from "../counter-item/CounterItem";
 
 // class User extends Component {
@@ -74,7 +74,7 @@ const User = () => {
   const handleInput = (e) => {
     const val = e.target.value;
     setCardNumber(val)
-    if (val.length === 16){
+    if (val.length === 16) {
       cvcRef.current.focus()
       console.log(val.length);
     }
@@ -83,7 +83,7 @@ const User = () => {
   const cvcInput = e => {
     const val = e.target.value;
     setCvcNumber(val);
-    if (val.length === 3){
+    if (val.length === 3) {
       dataCvc.current.focus();
     }
   }
@@ -93,7 +93,7 @@ const User = () => {
   useEffect(() => {
     console.log(cvcRef.current);
   });
-    const colors = {
+  const colors = {
     fontSize: '19px',
     color: active ? 'green' : 'red'
   }
@@ -108,9 +108,9 @@ const User = () => {
           <button className="btn btn-success" onClick={onIncrement}>Increase</button>
           <button className="btn btn-warning" onClick={onToggle}>Toggle</button>
         </div>
-          <input type="number" className="form-control mt-3 w-50 mx-auto" placeholder="Card Number" onChange={handleInput} value={cardNumber}/>
-          <input ref={cvcRef} type="number" className="form-control mt-2 w-50 mx-auto" placeholder="Secure Number" onChange={cvcInput} value={cvcNumber}/>
-          <input ref={dataCvc} type="number" className="form-control mt-2 w-50 mx-auto mb-3" placeholder="Year/Month" />
+        <input type="number" className="form-control mt-3 w-50 mx-auto" placeholder="Card Number" onChange={handleInput} value={cardNumber} />
+        <input ref={cvcRef} type="number" className="form-control mt-2 w-50 mx-auto" placeholder="Secure Number" onChange={cvcInput} value={cvcNumber} />
+        <input ref={dataCvc} type="number" className="form-control mt-2 w-50 mx-auto mb-3" placeholder="Year/Month" />
         <CounterItem counterGenerate={counterGenerate} />
       </div>
     </div>
@@ -122,8 +122,39 @@ const App = () => {
   return (
     <div>
       <User firstName='Muzaffar' lastName='Orziboyev' link='t.me://rehpargotyrC' />
+      <Sudo />
     </div>
   );
+}
+
+
+const Sudo = () => {
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+
+  const validateInput = text => {
+    if (text.search(/\d/) >= 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+  const firstnameColor = validateInput(firstname) ? 'text-danger' : null
+  const lastnameColor = validateInput(lastname) ? 'text-danger' : null
+
+
+  return (
+    <div className="w-50 mx-auto mb-5">
+      <div className="border p-3 mt-5">
+        <p className="text-center fs-3">Register</p>
+        <div className="d-flex gap-3">
+          <input type="text" className={`form-control mb-2 mr-sm-2 ${firstnameColor}`} placeholder="First Name" value={firstname} onChange={e=> setFirstname(e.target.value)}/>
+          <input type="text" className={`form-control mb-2 mr-sm-2 ${lastnameColor}`} placeholder="Last Name" value={lastname} onChange={e=> setLastname(e.target.value)} />
+        </div>
+        <button className="mt-3 btn btn-success" >Send me</button>
+      </div>
+    </div>
+  )
 }
 
 export default App;
